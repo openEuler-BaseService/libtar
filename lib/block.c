@@ -129,6 +129,11 @@ th_read(TAR *t)
 	if (TH_ISLONGLINK(t))
 	{
 		sz = th_get_size(t);
+		if ((int)sz <= 0)
+		{
+			errno = EINVAL;
+			return -1;
+		}
 		blocks = (sz / T_BLOCKSIZE) + (sz % T_BLOCKSIZE ? 1 : 0);
 		if (blocks > ((size_t)-1 / T_BLOCKSIZE))
 		{
@@ -179,6 +184,11 @@ th_read(TAR *t)
 	if (TH_ISLONGNAME(t))
 	{
 		sz = th_get_size(t);
+		if ((int)sz <= 0)
+		{
+			errno = EINVAL;
+			return -1;
+		}
 		blocks = (sz / T_BLOCKSIZE) + (sz % T_BLOCKSIZE ? 1 : 0);
 		if (blocks > ((size_t)-1 / T_BLOCKSIZE))
 		{
