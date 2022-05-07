@@ -290,6 +290,7 @@ int oct_to_int(char *oct);
 /* integer to string-octal conversion, no NULL */
 void int_to_oct_nonull(int num, char *oct, size_t octlen);
 
+void free_longlink_longname(struct tar_header th_buf);
 
 /***** wrapper.c **********************************************************/
 

@@ -36,7 +36,10 @@ tar_extract_glob(TAR *t, char *globname, char *prefix)
 		if (fnmatch(globname, filename, FNM_PATHNAME | FNM_PERIOD))
 		{
 			if (TH_ISREG(t) && tar_skip_regfile(t))
+			{
+				free_longlink_longname(t->th_buf);
 				return -1;
+			}
 			continue;
 		}
 		if (t->options & TAR_VERBOSE)
@@ -46,9 +49,13 @@ tar_extract_glob(TAR *t, char *globname, char *prefix)
 		else
 			strlcpy(buf, filename, sizeof(buf));
 		if (tar_extract_file(t, buf) != 0)
+		{
+			free_longlink_longname(t->th_buf);
 			return -1;
+		}
 	}
 
+	free_longlink_longname(t->th_buf);
 	return (i == 1 ? 0 : -1);
 }
 
@@ -82,9 +89,13 @@ tar_extract_all(TAR *t, char *prefix)
 		       "\"%s\")\n", buf);
 #endif
 		if (tar_extract_file(t, buf) != 0)
+		{
+			free_longlink_longname(t->th_buf);
 			return -1;
+		}
 	}
 
+	free_longlink_longname(t->th_buf);
 	return (i == 1 ? 0 : -1);
 }
 
