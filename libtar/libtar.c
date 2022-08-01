@@ -196,6 +196,7 @@ list(char *tarfile)
 		{
 			fprintf(stderr, "tar_skip_regfile(): %s\n",
 				strerror(errno));
+			free_longlink_longname(t->th_buf);
 			return -1;
 		}
 	}
@@ -217,10 +218,12 @@ list(char *tarfile)
 
 	if (tar_close(t) != 0)
 	{
+		free_longlink_longname(t->th_buf);
 		fprintf(stderr, "tar_close(): %s\n", strerror(errno));
 		return -1;
 	}
 
+	free_longlink_longname(t->th_buf);
 	return 0;
 }
 
