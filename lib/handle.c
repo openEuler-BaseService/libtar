@@ -124,6 +124,7 @@ tar_close(TAR *t)
 					: (libtar_freefunc_t)tar_dev_free));
 	if (t->th_pathname != NULL)
 		free(t->th_pathname);
+	free_longlink_longname(t->th_buf);
 	free(t);
 
 	return i;
