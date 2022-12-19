@@ -164,7 +164,13 @@ int_to_oct_nonull(int num, char *oct, size_t octlen)
 void free_longlink_longname(struct tar_header th_buf)
 {
 	if (th_buf.gnu_longname != NULL)
+	{
 		free(th_buf.gnu_longname);
+		th_buf.gnu_longname = NULL;
+	}
 	if (th_buf.gnu_longlink !=NULL)
+	{
 		free(th_buf.gnu_longlink);
+		th_buf.gnu_longlink = NULL;
+	}
 }
